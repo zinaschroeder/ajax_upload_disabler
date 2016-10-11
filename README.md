@@ -1,0 +1,9 @@
+The goal of this module is to prevent the exploitation of AJAX file uploads in forms by limiting who is allowed to use AJAX file uploads in the first place. Our site has a large anonymous user base that needs to upload files via the Webform module on a regular basis. As such, anyone can submit files to our server without actually submitting the entire webform through Drupal's AJAX file upload process. Despite the fact that these files are removed eventually during a cron run, we found that this presented a security flaw that was difficult to monitor.
+
+Though it is possible Drupal will create a patch to attempt to lessen the impact of this easily exploitable feature, in the mean time, we felt that it was important to develop something to prevent our site from being manipulated. We do not need our anonymous users to be able to use the AJAX file upload at all, so the easiest solution for us was to disable it. 
+
+To do this, our module hooks into the theme functions Drupal core and webforms use when making file upload fields. In our custom hook functions, we perform a check to make sure the current user has permission to use AJAX file uploads. If the user does not have permission, the parts of the array that would be rendered into the 'Upload' and 'Remove' buttons are removed so that they never appear on the page. After the unnecessary pieces are removed (or kept if the user does have permission), the default core or webform theme functions are called so that the end output is otherwise the same as it is by default. 
+
+When the module is enabled, only admins are given the option to use AJAX file uploads, however I think it is safe to give these permissions to all authenticated users. The only configuration necessary for this module is granting the permission options for users. There are no other settings or interfaces. 
+
+When this module is turned off, AJAX file uploads will return to their normal configuration. 
