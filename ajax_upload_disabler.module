@@ -55,7 +55,7 @@
             unset($element['remove_button']);
         }
 
-        // Call the normal webform managed file function to continue processing 
+        // Call the normal managed file function to continue processing 
         // like a normal file field
         $output = theme_file_managed_file($variables);
 
